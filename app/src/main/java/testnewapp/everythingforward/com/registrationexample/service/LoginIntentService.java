@@ -48,6 +48,7 @@ public class LoginIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         //Using HttpRequest to POST data.
+        //TODO: Try to obtain JSON request from PHP server.
 
         Bundle extraBundle = intent.getExtras();
         ArrayList<String> arraylist = extraBundle.getStringArrayList("key");
