@@ -6,6 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import testnewapp.everythingforward.com.registrationexample.HttpRequest;
+import testnewapp.everythingforward.com.registrationexample.MainActivity;
 
 /**
  * Created by santh on 1/20/2017.
@@ -62,6 +66,36 @@ public class LoginIntentService extends IntentService {
         data.put("password",uPassword);
         String response =  HttpRequest.post(POST_URL).form(data).body();
         System.out.println(response);
+
+        String broadcastString = null;
+
+        try {
+            JSONObject mainObject = new JSONObject(response);
+            boolean output = mainObject.getBoolean("error");
+            if(output==true)
+            {
+                broadcastString = "User not registered because user exists!";
+
+                System.out.println("User not registered because user exists!");
+
+            }
+            else
+            {
+                broadcastString = "User registered successfully";
+                System.out.println("User registered successfully");
+            }
+
+
+            Intent intent1 = new Intent(MainActivity.ACTION);
+            intent1.putExtra(Intent.EXTRA_TEXT,broadcastString);
+            sendBroadcast(intent1);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
 
 

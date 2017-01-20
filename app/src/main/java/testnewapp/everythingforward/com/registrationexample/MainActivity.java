@@ -1,6 +1,9 @@
 package testnewapp.everythingforward.com.registrationexample;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +22,7 @@ import testnewapp.everythingforward.com.registrationexample.service.LoginIntentS
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String ACTION = "BROADCAST";
     ImageView registerButton;
     EditText usernameET, passwordET;
     @Override
@@ -73,11 +77,32 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+
+
+
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        IntentFilter intentFilter = new IntentFilter(ACTION);
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                String message = intent.getStringExtra(Intent.EXTRA_TEXT);
+                Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
 
 
 
+            }
+        };
+
+        registerReceiver(receiver,intentFilter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
