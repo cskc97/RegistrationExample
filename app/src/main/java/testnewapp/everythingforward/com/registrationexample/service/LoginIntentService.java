@@ -48,19 +48,29 @@ public class LoginIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         //Using HttpRequest to POST data.
-        //TODO: Try to obtain JSON request from PHP server.
+
 
         Bundle extraBundle = intent.getExtras();
         ArrayList<String> arraylist = extraBundle.getStringArrayList("key");
         String uName = arraylist.get(0);
         String uPassword = arraylist.get(1);
 
+        //USING THE FOLLOWING STATEMENTS WILL ALSO GET BACK THE JSON RESPONSE GIVEN.
+
         HashMap<String,String> data = new HashMap<String,String>();
+        data.put("username",uName);
+        data.put("password",uPassword);
+        String response =  HttpRequest.post(POST_URL).form(data).body();
+        System.out.println(response);
+
+
+
+        /*HashMap<String,String> data = new HashMap<String,String>();
         data.put("username",uName);
         data.put("password",uPassword);
         boolean value= HttpRequest.post(POST_URL).form(data).created();
 
-        System.out.println(value);
+        System.out.println(value);*/
 
 
 
